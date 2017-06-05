@@ -206,6 +206,8 @@ public class Tela extends javax.swing.JFrame {
                         jTextArea1.setText(jTextArea1.getText() + "\n" + each);
 
                     }
+                    
+                   
                     jTextArea1.setText(jTextArea1.getText() + "\n");
 
                 } else {
@@ -220,14 +222,25 @@ public class Tela extends javax.swing.JFrame {
                     } else {
                         tratamento.unificar(2);
                         //JOptionPane.showMessageDialog(null, "Aqui1");
-                        for (String cons : tratamento.consulta) {
-                            jTextArea1.setText(jTextArea1.getText() + "\n-? " + cons);
-                            for (String x : tratamento.resposta) {
-                                jTextArea1.setText(jTextArea1.getText() + "\n" + x);
+
+                        jTextArea1.setText(jTextArea1.getText() + "\n");
+                        for (String x : tratamento.resposta) {
+                            jTextArea1.setText(jTextArea1.getText() + "\n" + x);
+                        }
+                        jTextArea1.setText(jTextArea1.getText() + "\n----------------------------------------\n");
+                        tratamento.resposta.clear();
+                        tratamento.consulta.clear();
+                    }
+                    ArrayList<Integer> organizar = new ArrayList<Integer>();
+                     organizar.add(0);
+                     for(Integer x : tratamento.Excluidos){
+                        System.out.println("Exclude : "+x); 
+                        for(Integer y : organizar){
+                            if(x > y){
+                                
                             }
                         }
                     }
-
                     erro = false;
                 }
 
@@ -249,7 +262,7 @@ public class Tela extends javax.swing.JFrame {
         String temp3 = "";
 
         msg = jTextField1.getText();
-        jTextArea1.setText(jTextArea1.getText() + "\n?- " + msg);
+        //jTextArea1.setText(jTextArea1.getText() + "\n?- " + msg);
         if (msg.matches("\\/.*")) {
             if (msg.equals("/help")) {
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /BC para vizualizar a base de conhecimento.");
@@ -271,17 +284,17 @@ public class Tela extends javax.swing.JFrame {
             } else {
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Opção não encontrada, digite /help para ajuda.");
             }
-        } else {
-            if (msg.matches(".+\\.\\s*\\&\\s*.+\\.")) {
+        } else if (msg.matches(".+\\.\\s*\\&\\s*.+\\.")) {
 
-                parte = msg.split("&");
-                temp1.add(parte[0]);
-                temp3 = parte[1];
+            parte = msg.split("&");
+            temp1.add(parte[0]);
+            temp3 = parte[1];
 
-                tratamento.setConsulta(temp1);
-                tratamento.setTemporario(temp3);
+            tratamento.setConsulta(temp1);
+            tratamento.setTemporario(temp3);
 
-                if (!(tratamento.ErroTemp.size() > 0 && tratamento.ErrosConsulta.size() > 0)) {
+            if (!(tratamento.ErroTemp.size() > 0)) {
+                if (!(tratamento.ErrosConsulta.size() > 0)) {
                     tratamento.unificar(1);
 
                     temp2 = tratamento.getResposta();
@@ -291,54 +304,66 @@ public class Tela extends javax.swing.JFrame {
                         jTextArea1.setText(jTextArea1.getText() + "\n" + each);
 
                     }
+                    jTextArea1.setText(jTextArea1.getText() + "\n----------------------------------------\n");
                     tratamento.resposta.clear();
+                    tratamento.consulta.clear();
 
                 } else {
-
                     temp2 = tratamento.getErrosConsulta();
-
+                    jTextArea1.setText(jTextArea1.getText() + "\n-? " + msg);
                     for (String each : temp2) {
 
                         jTextArea1.setText(jTextArea1.getText() + "\n" + each);
 
                     }
-
+                    tratamento.ErrosConsulta.clear();
                 }
-
             } else {
 
-                if (base_inserido) {
+                temp2 = tratamento.getErroTemp();
+                jTextArea1.setText(jTextArea1.getText() + "\n-? " + msg);
+                for (String each : temp2) {
 
-                    temp1.add(msg);
-                    tratamento.setConsulta(temp1);
+                    jTextArea1.setText(jTextArea1.getText() + "\n" + each);
 
-                    if (!(tratamento.ErrosConsulta.size() > 0 && tratamento.ErrosConsulta.size() > 0)) {
-                        tratamento.unificar(2);
-
-                        temp2 = tratamento.getResposta();
-
-                        for (String each : temp2) {
-
-                            jTextArea1.setText(jTextArea1.getText() + "\n" + each);
-
-                        }
-                        tratamento.resposta.clear();
-
-                    } else {
-                        temp2 = tratamento.getErrosConsulta();
-
-                        for (String each : temp2) {
-
-                            jTextArea1.setText(jTextArea1.getText() + "\n" + each);
-
-                        }
-                    }
-
-                } else {
-                    jTextArea1.setText(jTextArea1.getText() + "\n" + "Base de Conhecimento nao inserida.");
                 }
+                tratamento.ErroTemp.clear();
 
             }
+
+        } else if (base_inserido) {
+
+            temp1.add(msg);
+            tratamento.setConsulta(temp1);
+
+            if (!(tratamento.ErrosConsulta.size() > 0 && tratamento.ErrosConsulta.size() > 0)) {
+                tratamento.unificar(2);
+
+                temp2 = tratamento.getResposta();
+
+                for (String each : temp2) {
+
+                    jTextArea1.setText(jTextArea1.getText() + "\n" + each);
+
+                }
+                jTextArea1.setText(jTextArea1.getText() + "\n----------------------------------------\n");
+                
+                tratamento.consulta.clear();
+                tratamento.resposta.clear();
+
+            } else {
+                temp2 = tratamento.getErrosConsulta();
+                jTextArea1.setText(jTextArea1.getText() + "\n-? " + msg);
+                for (String each : temp2) {
+
+                    jTextArea1.setText(jTextArea1.getText() + "\n" + each);
+
+                }
+                tratamento.ErrosConsulta.clear();
+            }
+
+        } else {
+            jTextArea1.setText(jTextArea1.getText() + "\n" + "Base de Conhecimento nao inserida.");
         }
 
         //jTextArea1.setForeground(Color.black);

@@ -16,12 +16,12 @@ public class teste {
     Erros erros;
     ArrayList<String> er = new ArrayList<String>();
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         teste teste = new teste();
         //teste.bnf("funcao(ola,ola).", true);
         System.out.println("jdsvbjsnd : " + teste.bnf("gos_92384_(olajsb_kndfm,jbdbdsf_du4iwbewhr473gywrbij).", true));
        
-    }
+    }*/
    
 
     public ArrayList<String> resposta(String var) {

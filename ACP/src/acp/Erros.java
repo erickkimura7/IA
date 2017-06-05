@@ -13,6 +13,7 @@ public class Erros {
     public ArrayList<String> ErrosConsulta;
     public ArrayList<String> resposta;
     public ArrayList<String> ErroTemp;
+    public ArrayList<Integer> Excluidos;
     public String temporario;
     ACP acp = new ACP();
     private static final String OK = "[a-zA-Z0-9_(),!]";
@@ -36,6 +37,7 @@ public class Erros {
         ErrosBC = new ArrayList<String>();
         resposta = new ArrayList<String>();
         BC = new ArrayList<String>();
+        Excluidos = new ArrayList<Integer>();
     }
 
     public ArrayList<String> getErros() {
@@ -139,7 +141,7 @@ public class Erros {
 
                 if (!parenteses(x, linha, escolha)) {
                     System.out.println("Erro");
-
+                    Excluidos.add(linha-1);
                 }
                 linha++;
             }
@@ -167,11 +169,14 @@ public class Erros {
                         //erro de caractere nao aceitos
                         //Caracter nao permitido na posicao : " + i
                         Erros.add("Não é uma fbf. Erro 001. Posição: " + i);
+                        Excluidos.add(linha-1);
                         if (escolha == 1) {
                             //erro de caractere nao aceitos informando a linha do erro somente para BC
                             //Caracter nao permitido na linha : " + linha
                             Erros.add("Não é uma fbf. Erro 001. Posição: " + i + ". Linha: " + linha);
+                            Excluidos.add(linha-1);
                         }
+                        
                         System.out.println(":(");
                     }
                 }
@@ -181,18 +186,18 @@ public class Erros {
                 //verificacao de ponto final
                 if (x.charAt(x.length() - 1) == '.') {
                     System.out.println("OKK2");
+                } else if (escolha == 1) {
+                    //verificacao de ponto final para BC
+                    //Faltando ponto final na linha : " + linha
+                    Erros.add("Não é uma fbf. Erro 002. Linha : " + linha);
+                    System.out.println("Faltando ponto final na linha : " + linha);
+                    Excluidos.add(linha-1);
                 } else {
-                    if (escolha == 1) {
-                        //verificacao de ponto final para BC
-                        //Faltando ponto final na linha : " + linha
-                        Erros.add("Não é uma fbf. Erro 002. Linha : " + linha);
-                        System.out.println("Faltando ponto final na linha : " + linha);
-                    } else {
-                        //verificacao de ponto final para a consulta
-                        //Faltando ponto final na consulta : " + x
-                        Erros.add("Não é uma fbf. Erro 002");
-                        System.out.println("Faltando ponto final na consulta : " + x);
-                    }
+                    //verificacao de ponto final para a consulta
+                    //Faltando ponto final na consulta : " + x
+                    Erros.add("Não é uma fbf. Erro 002");
+                    System.out.println("Faltando ponto final na consulta : " + x);
+                    Excluidos.add(linha-1);
                 }
 
                 //teste para ver se é uma formula bem formada
@@ -203,8 +208,10 @@ public class Erros {
                     for (String er : temp3) {
                         if (escolha == 1) {
                             Erros.add(er + " na linha : " + linha);
+                            Excluidos.add(linha-1);
                         } else {
                             Erros.add(er);
+                            Excluidos.add(linha-1);
                         }
                     }
                 }
@@ -230,40 +237,56 @@ public class Erros {
         boolean algum = false;
         if (i == 1) {
             for (String cons : consulta) {
+                ArrayList<String> reps = new ArrayList<String>();
                 String res = acp.rodar_unificacao(cons, temporario);
+                ArrayList<String> reps1 = new ArrayList<String>();
                 if (res.matches("\\{.*\\}")) {
 
-                    formatar(cons,res);
+                    reps1 = formatar(cons, res);
                     algum = true;
+                    for (String l : reps1) {
+                        reps.add(l);
+                    }
+                }
+                if (!algum) {
+                    resposta.add("Não unificavel");
+                } else {
+                    resposta.add("\n-? " + cons);
+                    resposta.add("\nUnificável");
+                    for (String in : reps) {
+                        resposta.add(in);
+                    }
 
                 }
-
-            }
-            if (!algum) {
-                resposta.add("Não unificavel");
-            }else{
-                resposta.add(0,"Unificável");
             }
 
         } else if (i == 2) {
             for (String cons : consulta) {
+                ArrayList<String> reps = new ArrayList<String>();
 
                 for (String bc : BC) {
-
+                    ArrayList<String> reps1 = new ArrayList<String>();
                     String res = acp.rodar_unificacao(cons, bc);
                     if (res.matches("\\{.*\\}")) {
-                        
-                        formatar(cons,res);
+
+                        reps1 = formatar(cons, res);
                         algum = true;
-                        
+                        for (String l : reps1) {
+                            reps.add(l);
+                        }
                     }
 
                 }
                 if (!algum) {
                     resposta.add("Não unificavel");
-                }else{
-                resposta.add(0,"Unificável");
-            }
+                } else {
+                    resposta.add("\n-? " + cons);
+                    resposta.add("\nUnificável");
+                    for (String in : reps) {
+                        resposta.add(in);
+                    }
+
+                }
 
             }
         }
@@ -350,8 +373,9 @@ public class Erros {
         }
     }
 
-    void formatar(String var, String comp) {
+    ArrayList<String> formatar(String var, String comp) {
         String pppp = var;
+        ArrayList<String> resp = new ArrayList<String>();
         //cria um array list
         ArrayList<String> array = new ArrayList<String>();
 
@@ -404,19 +428,17 @@ public class Erros {
 
                 }
 
-               
-
             }
-             String novo = "";
-                for (String x : array) {
-                    novo += x;
-                }
-                resposta.add("\n"+novo);
-                resposta.add("Composição: {" + comp+"}");
+            String novo = "";
+            for (String x : array) {
+                novo += x;
+            }
+            resp.add("\n" + novo + ".");
+            resp.add("Composição: {" + comp + "}");
 
         } else if (comp.replace(" ", "").equals("")) {
-            resposta.add("\n"+var);
-            resposta.add("Composição: {" + comp+"}");
+            resp.add("\n" + var);
+            resp.add("Composição: {" + comp + "}");
             algum = true;
         } else {
             String array2[];
@@ -432,11 +454,10 @@ public class Erros {
             for (String x : array) {
                 novo += x;
             }
-            resposta.add("\n"+novo);
-            resposta.add("Composição: {" + comp+"}");
+            resp.add("\n" + novo + ".");
+            resp.add("Composição: {" + comp + "}");
         }
-
-        
+        return resp;
     }
 
 }
