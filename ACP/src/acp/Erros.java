@@ -123,6 +123,8 @@ public class Erros {
     }
 
     void tratamento_erros(int escolha) {
+        ArrayList<String> novaBC = new ArrayList<String>();
+        novaBC = BC;
         this.Erros = new ArrayList<String>();
         ArrayList<String> utilizar = new ArrayList<String>();
         if (escolha == 1) {
@@ -142,6 +144,7 @@ public class Erros {
                 if (!parenteses(x, linha, escolha)) {
                     System.out.println("Erro");
                     Excluidos.add(linha-1);
+                    novaBC.remove(x);
                 }
                 linha++;
             }
@@ -156,6 +159,7 @@ public class Erros {
         if ((utilizar.size() > 0)) {
             System.out.println("aqui 1");
             for (String x : utilizar) {
+                String pp =x;
                 x = x.replace(" ", "");
 
                 //verificacao dos caracteres especiais
@@ -170,11 +174,14 @@ public class Erros {
                         //Caracter nao permitido na posicao : " + i
                         Erros.add("Não é uma fbf. Erro 001. Posição: " + i);
                         Excluidos.add(linha-1);
+                        novaBC.remove(pp);
                         if (escolha == 1) {
                             //erro de caractere nao aceitos informando a linha do erro somente para BC
                             //Caracter nao permitido na linha : " + linha
                             Erros.add("Não é uma fbf. Erro 001. Posição: " + i + ". Linha: " + linha);
                             Excluidos.add(linha-1);
+                            novaBC.remove(pp);
+                             
                         }
                         
                         System.out.println(":(");
@@ -192,26 +199,33 @@ public class Erros {
                     Erros.add("Não é uma fbf. Erro 002. Linha : " + linha);
                     System.out.println("Faltando ponto final na linha : " + linha);
                     Excluidos.add(linha-1);
+                     novaBC.remove(pp);
                 } else {
                     //verificacao de ponto final para a consulta
                     //Faltando ponto final na consulta : " + x
                     Erros.add("Não é uma fbf. Erro 002");
                     System.out.println("Faltando ponto final na consulta : " + x);
                     Excluidos.add(linha-1);
+                    novaBC.remove(pp);
                 }
 
                 //teste para ver se é uma formula bem formada
                 ArrayList<String> temp3 = new ArrayList<String>();
                 teste teste = new teste();
                 temp3 = teste.resposta(x);
+                
+                
+                
                 if (temp3.size() > 0) {
                     for (String er : temp3) {
                         if (escolha == 1) {
                             Erros.add(er + " na linha : " + linha);
                             Excluidos.add(linha-1);
+                            novaBC.remove(pp);
                         } else {
                             Erros.add(er);
                             Excluidos.add(linha-1);
+                            novaBC.remove(pp);
                         }
                     }
                 }
@@ -222,7 +236,7 @@ public class Erros {
         for (String x : Erros) {
             System.out.println("Errosssss : " + x);
         }
-
+        BC = novaBC;
         if (escolha == 1) {
             setErrosBC(Erros);
         } else if (escolha == 2) {
