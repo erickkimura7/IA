@@ -235,6 +235,7 @@ public class Tela extends javax.swing.JFrame {
                      organizar.add(0);
                      for(Integer x : tratamento.Excluidos){
                         System.out.println("Exclude : "+x); 
+                         //System.out.println("");
                         for(Integer y : organizar){
                             if(x > y){
                                 
