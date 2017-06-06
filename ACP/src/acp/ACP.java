@@ -23,11 +23,9 @@ public class ACP {
     public boolean debugUnificar = false;
     public boolean debugMetodos = false;
 
-    
-    
     public static void main(String[] args) {
         ACP acp = new ACP();
-        acp.unificar("( gosta ( maria joao )", "( X Y )");
+        System.out.println(acp.rodar_unificacao("p(X,Y).", "p(f(X),a)."));
     }
 
     // E1 e E2 precisao entrar ja em forma de lista
@@ -156,42 +154,49 @@ public class ACP {
             return "Falha";
 
         } else {
-            if (debugUnificar) {
-                System.out.println("Flag 23");
-            };
-            String he1 = primeiro(E1);// pega o primeiro elemento de E1
-            if (debugUnificar) {
-                System.out.println("Flag 24");
-            };
-            String he2 = primeiro(E2);// pega o primeiro elemento de E2
-            if (debugUnificar) {
-                System.out.println("Flag 25");
-            };
-            String subs1 = unificar(he1, he2);// unifica he1 com he2
-            if (debugUnificar) {
-                System.out.println("Flag 26");
-            };
-            // se subs1 for falha entao vai retornar falha
-            if (subs1 == "Falha") {
+            String subs2;
+            String subs1;
+            try {
+
                 if (debugUnificar) {
-                    System.out.println("Flag 27");
+                    System.out.println("Flag 23");
                 };
-                return "Falha";
+                String he1 = primeiro(E1);// pega o primeiro elemento de E1
+                if (debugUnificar) {
+                    System.out.println("Flag 24");
+                };
+                String he2 = primeiro(E2);// pega o primeiro elemento de E2
+                if (debugUnificar) {
+                    System.out.println("Flag 25");
+                };
+                subs1 = unificar(he1, he2);// unifica he1 com he2
+                if (debugUnificar) {
+                    System.out.println("Flag 26");
+                };
+                // se subs1 for falha entao vai retornar falha
+                if (subs1 == "Falha") {
+                    if (debugUnificar) {
+                        System.out.println("Flag 27");
+                    };
+                    return "Falha";
+                }
+                if (debugUnificar) {
+                    System.out.println("Flag 28");
+                };
+                E1 = E1.replaceAll("\\s+", " ");
+                E2 = E2.replaceAll("\\s+", " ");
+                String te1 = aplicar(subs1, E1);
+                if (debugUnificar) {
+                    System.out.println("Flag 29");
+                };
+                String te2 = aplicar(subs1, E2);
+                if (debugUnificar) {
+                    System.out.println("Flag 30");
+                };
+                 subs2 = unificar(te1, te2);
+            } catch (Exception e) {
+                return "Erro";
             }
-            if (debugUnificar) {
-                System.out.println("Flag 28");
-            };
-            E1 = E1.replaceAll("\\s+", " ");
-            E2 = E2.replaceAll("\\s+", " ");
-            String te1 = aplicar(subs1, E1);
-            if (debugUnificar) {
-                System.out.println("Flag 29");
-            };
-            String te2 = aplicar(subs1, E2);
-            if (debugUnificar) {
-                System.out.println("Flag 30");
-            };
-            String subs2 = unificar(te1, te2);
             if (debugUnificar) {
                 System.out.println("Flag 31");
             };
@@ -214,12 +219,12 @@ public class ACP {
     // retorna true se for uma lista vazia ou seja "( )" ou "()"
     boolean vazio(String var) {
         var = var.replaceAll(" ", "");
-       
+
         if (debugMetodos) {
             System.out.println("Flag 34 - Verifica se e uma lista vazia");
         };
         //tirar todos os espacos
-        
+
         //se o restante for igual a () entao ele e uma lista vazia
         if (var.equals("()")) {
             if (debugMetodos) {
@@ -241,7 +246,7 @@ public class ACP {
             System.out.println("Flag 37 - verifica se e uma variavel");
         };
         //retirar todos os espacos desnecessarios
-        
+
         var = var.replaceAll("\\s+", " ");
         String x = Character.toString(var.charAt(0));
         if (var.charAt(0) == '(') {
@@ -264,9 +269,11 @@ public class ACP {
         }
 
     }
+
     //     
     // verifica se e uma constante
     // valido
+
     boolean constante(String var) {
         if (debugMetodos) {
             System.out.println("Flag 41 - verifica se e uma constante");
@@ -312,7 +319,6 @@ public class ACP {
         array = var.split(" ");
         array1 = var1.split(" ");
 
-        
         for (int i = 0; i < array.length; i++) {
 
             for (int j = 0; j < array1.length; j++) {
@@ -320,7 +326,7 @@ public class ACP {
                 // para que seja testado é necessario que todos sejam diferentes
                 // de ( ou )
                 if (array[i] != "(" && array[i] != ")" && array1[j] != "(" && array1[j] != ")") {
-                    if (array[i] == array1[j]) {
+                    if (array[i].equals(array1[j])) {
                         // retorna True se E1 ocorrer em E2
                         if (debugMetodos) {
                             System.out.println("Flag 46 - ocorre");
@@ -403,7 +409,7 @@ public class ACP {
         int i;
         // System.out.println("Check 4");
         // pega a posicao do segundo parenteses aberto e salva em i
-        
+
         for (i = 0; i < dupla1.size(); i++) {
             if (dupla1.get(i) == 1) {
                 break;
@@ -451,7 +457,7 @@ public class ACP {
         //verifica se o primeiro elemento de var1 e igual a {
         //gosta/X
         //opa/Y
-        
+
         //gosta
         //Y
         if (var1.charAt(0) == '{') {
@@ -476,31 +482,29 @@ public class ACP {
                 String array[];
                 array = parte.split("/");
 
-
                 array[0] = array[0].replaceAll("\\s+", " ");
 
                 array[1] += " ";
                 array[1] = array[1].replaceAll(" ", "");
 
-                if (array[0].equals(" ") && array[1].equals("")) { 
-                    
+                if (array[0].equals(" ") && array[1].equals("")) {
 
                     for (int i = 0; i < array2.length; i++) {
                         if (array2[i].equals("(") && array2[i + 1].equals(")")) {
                             array2[i] = "";
                             array2 = novo(array2, i);
-                            
+
                             array2[i + 1] = "";
                             array2 = novo(array2, i + 1);
                         }
                     }
-                    
 
                     for (int i = 0; i < array2.length; i++) {
                         novo += array2[i] + " ";
                     }
                     novo = novo.replaceAll("\\s+", " ");
 
+                    //} else if (array[0].equals(" ") || array[0].charAt(0) == '(') {
                 } else if (array[0].equals(" ") || array[0].charAt(0) == '(') {
                     //System.out.println("Flag 3");
                     for (int i = 0; i < array2.length; i++) {
@@ -765,8 +769,11 @@ public class ACP {
                 if (!each.isEmpty()) {
                     String array2[] = each.split("/");
                     // array2[1]=array2[1].replace(" ", "");
+                    System.out.println("ola : " + array2[1]);
+                    System.out.println("ola1 : " + array2[0]);
+
                     if (variavel(array2[1]) && (constante(array2[0]) || variavel(array2[0]))
-                            && !array2[0].equals(" ")) {
+                            && !array2[0].equals(" ") || array2[0].charAt(0) == '(') {
                         if (debugMetodos) {
                             System.out.println("Flag 77");
                         };
