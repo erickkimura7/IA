@@ -63,7 +63,6 @@ public class Tela extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
@@ -115,14 +114,6 @@ public class Tela extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem5);
 
-        jMenuItem3.setText("Sair");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem3);
-
         jMenuBar1.add(jMenu1);
 
         jMenu6.setText("Ajuda");
@@ -162,10 +153,6 @@ public class Tela extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
@@ -288,6 +275,10 @@ public class Tela extends javax.swing.JFrame {
                 
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /Erros para vizualizar a lista de Erros.");
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /Add para adicionar o ultima resposta na BC.");
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "Para fazer unificacao de dois termos: Ex. gosta(X,joao). & gosta(maria,joao).");
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "Para fazer a consulta: Ex. gosta(X,Y).");
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "Para carregar uma BC: File -> Carregar");
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "Para salvar a BC: File -> Salvar BC");
             } else if (msg.equals("/BC")) { // caso seja digitado /BC abre a base de conhecimento
                 if (base_inserido) {
                     BCTela tela = new BCTela();
@@ -489,7 +480,6 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
