@@ -204,7 +204,7 @@ public class Tela extends javax.swing.JFrame {
                         } else {
                             temp_consulta.add(linha);
                             this.resto.add(linha);
-                            this.juntos = true;
+                            
                         }
 
                     }
@@ -281,13 +281,14 @@ public class Tela extends javax.swing.JFrame {
 
         msg = jTextField1.getText();
         //jTextArea1.setText(jTextArea1.getText() + "\n?- " + msg);
+        //se for digitado / "alguma coisa"
         if (msg.matches("\\/.*")) {
             if (msg.equals("/help")) {
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /BC para vizualizar a base de conhecimento.");
                 
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /Erros para vizualizar a lista de Erros.");
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /Add para adicionar o ultima resposta na BC.");
-            } else if (msg.equals("/BC")) {
+            } else if (msg.equals("/BC")) { // caso seja digitado /BC abre a base de conhecimento
                 if (base_inserido) {
                     BCTela tela = new BCTela();
                     telaBC = tratamento.BC;
@@ -297,11 +298,11 @@ public class Tela extends javax.swing.JFrame {
                 } else {
                     jTextArea1.setText(jTextArea1.getText() + "\n" + "Base de Conhecimento não inserida.");
                 }
-            } else if (msg.equals("/Erros")) {
+            } else if (msg.equals("/Erros")) { // caso seja digitado /Erros abre o log de erros
                 LogErros tela = new LogErros();
                 tela.carregar(tratamento.ErrosBC);
                 tela.setVisible(true);
-            } else if (msg.equals("/Add")) {
+            } else if (msg.equals("/Add")) { // se for digitado /Add adiciona a base a ultima consulta valida
                 if (tratamento.add.size() > 0) {
                     int q = JOptionPane.showConfirmDialog(null, "Deseja adicionar a resposta da ultima unificação na BC ?");
 

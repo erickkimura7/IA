@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author @author erick, Giovanni, Lucas
+ * @author erick, Giovanni, Lucas
  */
 public class teste {
 
@@ -41,7 +41,10 @@ public class teste {
 
         //verifica se é um predicado e a primeira consulta
         if (var.matches("\\p{Lower}+[a-zA-Z0-9_]*\\(.+\\)\\.") && primeiro) {
-
+            // gosta(maria,joao).
+            // maria,joao).
+            // maria,joao)
+            // maria,joao
             var = var.replaceFirst("\\p{Lower}+[a-zA-Z0-9_]*\\(", "");
             System.out.println(var);
             var = var.replaceFirst("\\.", "");
@@ -52,6 +55,7 @@ public class teste {
 
             
             if (var.matches("[a-zA-Z_0-9()]+\\,[a-zA-Z_0-9(),]+")) { // verifica se os termos sao divididos por ','
+                
                 String array[];
 
                 //caso seja divide os termos utilizando as ',' como referencia
@@ -85,8 +89,8 @@ public class teste {
             er.add("Nao e uma fbf. Erro 005");
             return "Erro";
         } else { // se nao for o primeiro entao entra nesta condicao
-
-            if (var.matches("\\p{Lower}+[a-zA-Z0-9_]*\\(.+\\)")) { // verifica se é uma funcao terminado em )
+            
+            if (var.matches("\\p{Lower}+[a-zA-Z0-9_]*\\(.+\\)")) { // verifica se é uma funcao terminado em ")"
 
                 //var.replaceFirst(".", "");
                 //var.replaceFirst("\\p{Lower}+\\_*\\p{Lower}*\\", var);
@@ -154,7 +158,7 @@ public class teste {
                     return "";
                 }
 
-            } else if (var.matches("\\p{Lower}+[a-z_]*\\(.+\\)[a-zA-Z0-9_()]*")) { //verifica se e uma funcao terminado em qualquer letra
+            } else if (var.matches("\\p{Lower}+[a-zA-Z0-9_]*\\(.+\\)[a-zA-Z0-9_()]+")) { //verifica se e uma funcao terminado em qualquer letra
 
                 System.out.println("funcao com , :" + var);
                 var = var.replaceFirst("\\p{Lower}+[a-zA-Z0-9_]*\\(", "");
@@ -203,7 +207,7 @@ public class teste {
             // caso todas as opcoes citadas acima forem falsas retorna Erro
             //nao e uma fbf pois nao e uma variavel, constante ou uma funcao 
             er.add("Nao e uma fbf. Termo ("+var+"). Erro 006");
-            System.out.println("Erro1");
+            System.out.println("Erro");
             return "Erro";
             
         }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author @author erick, Giovanni, Lucas
+ * @author erick, Giovanni, Lucas
  */
 public class LogErros extends javax.swing.JFrame {
 

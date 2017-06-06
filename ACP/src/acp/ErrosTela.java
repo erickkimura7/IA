@@ -7,7 +7,7 @@ package acp;
 
 /**
  *
- * @author erickkimura
+ * @author erick, Giovanni, Lucas
  */
 public class ErrosTela extends javax.swing.JFrame {
 

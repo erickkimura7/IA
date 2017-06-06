@@ -13,7 +13,7 @@ import javax.print.DocFlavor;
 
 /**
  *
- * @author erick BD1C7A580E9F32854EF534590C3245F8287C2D26486AB68724357555743536C2
+ * @author erick, Giovanni, Lucas
  */
 public class ACP {
 
@@ -23,86 +23,12 @@ public class ACP {
     public boolean debugUnificar = false;
     public boolean debugMetodos = false;
 
-    // p(X,f(A),f(y)). -> ( p X ( f A ) ( f y ) )
-    // p(a,Z). -> ( p a Z )
-    // subs1: { /A, /f} - E1: ( ( f A ) ( f y ) )
-    // subs1: { /A, /f} - E1: ( ( f A ) )
-    // unificar(( ( f A ) ( f y ) ) ,( ( f A ) ) ).
-    // Flag 25 subs1: / - E1: ( ( ) ( h Y ) )
-    // Flag 25 subs1: { /h,( g a ) /Y, / , /g, /a} - E1: ( ( h ( g a ) ) )
-    // { /h,( g a ) /Y, / , /g, /a} - E1: ( ( h ( g a ) ) ) - ( ( ) )
-    // Flag 25a subs1: / - E1: ( ( ) ( h ( g a ) ) )
-    /*
+    
+    
     public static void main(String[] args) {
-        // TODO code application logic here
         ACP acp = new ACP();
-
-        ArrayList<String> BC = new ArrayList<String>();
-        ArrayList<String> consulta = new ArrayList<String>();
-
-    
-        ((gosta x )) (gosta )
-    
-        (gosta x ) , gosta
-    
-    
-        
-    
-    
-        BC.add("p(a,Z).");
-        BC.add("ancestral(bill,pai(bill)).");
-        BC.add("ancestral(david,george).");
-        BC.add("q(a).");
-        BC.add("p(y,a).");
-        BC.add("p(Y,f(W)).");
-        BC.add("p(Z,h(y),h(y)).");
-        BC.add("p(y,f(y)).");
-        BC.add("p(Z,W,f(B)).");
-
-        consulta.add("p(X,Y).");
-        consulta.add("q(x).");
-        consulta.add("p(f(X),Z).");
-        consulta.add("p(f(X),a).");
-        consulta.add("p(a,x,h(g(z))).");
-        consulta.add("p(X,X).");
-        consulta.add("p(X,f(A),f(y)).");
-
-        for (String cons : consulta) {
-            for (String base : BC) {
-                System.out.println("Teste : " + cons + " - " + base + "\n");
-                System.out.println(acp.rodar_unificacao(cons, base));
-                System.out.println("\n\n\n\n");
-            }
-
-        }
-        // System.out.println(acp.primeiro("((()))"));
-        // System.out.println(acp.rodar_unificacao(acp.formatar("gosta(maria,Y)"),
-        // acp.formatar("gosta(X,andre)")));
-        // System.out.println("gosta(X p (Y )Z ,(s ,(a ) aa )asd,asdas
-        // )".replace(","," ").replaceAll("\\s+", " "));
-        // System.out.println(acp.formatar("gosta(X p(Y ) Z ( s (a)aa ) asd
-        // asdas)"));
-        // System.out.println(acp.aplicar(" / ", "( ( ) ( h ( g a ) ) )"));
-        // System.out.println(acp.aplicar("{ /a, /g, / ,( g a ) /Y, /h}","( ( h
-        // ( g a ) ) )"));
-        // System.out.println(acp.aplicar("{ /h,( g a ) /Y, / , /g, /a}", "( ( h
-        // ( g a ) ) )"));
-        // System.out.println(acp.aplicar(" / ","( ( ) ( h Y ) )"));
-        //System.out.println(acp.rodar_unificacao("( p a X ( h ( g Z ) ) )", "( p Z ( h Y ) ( h Y ) )"));
-        // System.out.println(acp.rodar_unificacao(acp.unificar("( p a X ( h ( g Z ) )
-        // )", "( p Z ( h Y ) ( h Y ) )")));
-        // System.out.println(acp.aplicar("{ /A, /f}", "( ( f A ) ( f y ) )"));
-        // System.out.println(acp.unificar("( p X ( f A ) ( f y ) )", "( p a Z
-        // )"));
-        // System.out.println(acp.composicao(" /maria", "{joao/X}"));
-        // System.out.println(acp.unificar("( ( mae bill ) )","( Y )"));
-        // System.out.println(acp.unificar("( gosta joao maria )","( gosta Y
-        // maria )"));
-        // System.out.println(acp.aplicar(" /gosta","gosta X karina"));
-        // System.out.println(acp.constante("( gosta joao maria )"));
-        // System.out.println(acp.vazio("(  )"));
-     
-    }*/
+        acp.unificar("( gosta ( maria joao )", "( X Y )");
+    }
 
     // E1 e E2 precisao entrar ja em forma de lista
     String unificar(String E1, String E2) {
@@ -215,6 +141,7 @@ public class ACP {
         if (debugUnificar) {
             System.out.println("Flag 21");
         };
+        //( ola ) - gosta
         if (!vazio(E1) && constante(E2)) {
             return "Falha";
         }
@@ -286,19 +213,22 @@ public class ACP {
 
     // retorna true se for uma lista vazia ou seja "( )" ou "()"
     boolean vazio(String var) {
-        if (debugMetodos) {
-            System.out.println("Flag 34");
-        };
         var = var.replaceAll(" ", "");
-
+       
+        if (debugMetodos) {
+            System.out.println("Flag 34 - Verifica se e uma lista vazia");
+        };
+        //tirar todos os espacos
+        
+        //se o restante for igual a () entao ele e uma lista vazia
         if (var.equals("()")) {
             if (debugMetodos) {
-                System.out.println("Flag 35");
+                System.out.println("Flag 35 - Lista vazia");
             };
             return true;
         } else {
             if (debugMetodos) {
-                System.out.println("Flag 36");
+                System.out.println("Flag 36 - Lista nao vazia");
             };
             return false;
         }
@@ -308,35 +238,38 @@ public class ACP {
     // valido
     boolean variavel(String var) {
         if (debugMetodos) {
-            System.out.println("Flag 37");
+            System.out.println("Flag 37 - verifica se e uma variavel");
         };
+        //retirar todos os espacos desnecessarios
+        
         var = var.replaceAll("\\s+", " ");
         String x = Character.toString(var.charAt(0));
         if (var.charAt(0) == '(') {
             if (debugMetodos) {
-                System.out.println("Flag 38");
+                System.out.println("Flag 38 - nao e uma variavel");
             };
             return false;
         }
+        //tranforma para letra maiuscula e compara com o original se for igual entao e uma variavel se nao nao e uma variavel
         if (x.toUpperCase().equals(x)) {
             if (debugMetodos) {
-                System.out.println("Flag 39");
+                System.out.println("Flag 39 - e uma variavel");
             };
             return true;
         } else {
             if (debugMetodos) {
-                System.out.println("Flag 40");
+                System.out.println("Flag 40 - nao e uma variavel");
             };
             return false;
         }
 
     }
-
+    //     
     // verifica se e uma constante
     // valido
     boolean constante(String var) {
         if (debugMetodos) {
-            System.out.println("Flag 41");
+            System.out.println("Flag 41 - verifica se e uma constante");
         };
         var = var.replaceAll("\\s+", " ");
         String x = Character.toString(var.charAt(0));
@@ -346,6 +279,7 @@ public class ACP {
             };
             return false;
         }
+        //tranforma para letra minuscula e compara com o original se for igual entao e uma constante se nao nao e uma constante
         if (x.toLowerCase().equals(x)) {
             if (debugMetodos) {
                 System.out.println("Flag 43");
@@ -378,15 +312,7 @@ public class ACP {
         array = var.split(" ");
         array1 = var1.split(" ");
 
-        /*
-         * Teste for (int i = 0 ; i<array.length ; i++){
-         * System.out.println(array[i]);
-         * 
-         * } for (int i = 0 ; i<array1.length ; i++){
-         * System.out.println(array1[i]);
-         * 
-         * }
-         */
+        
         for (int i = 0; i < array.length; i++) {
 
             for (int j = 0; j < array1.length; j++) {
@@ -397,7 +323,7 @@ public class ACP {
                     if (array[i] == array1[j]) {
                         // retorna True se E1 ocorrer em E2
                         if (debugMetodos) {
-                            System.out.println("Flag 46");
+                            System.out.println("Flag 46 - ocorre");
                         };
                         return true;
 
@@ -414,7 +340,7 @@ public class ACP {
         }
         // Retorna False se var nao ocorrer em var2
         if (debugMetodos) {
-            System.out.println("Flag 47");
+            System.out.println("Flag 47 - nao ocorre");
         };
         return false;
     }
@@ -423,8 +349,9 @@ public class ACP {
     // valido
     String primeiro(String var) {
         if (debugMetodos) {
-            System.out.println("Flag 48");
+            System.out.println("Flag 48 - pegar primeiro elemento");
         };
+        //retirar espacos inuteis
         var = var.replaceAll("\\s+", " ");
         String array[];
         array = var.split(" ");
@@ -446,7 +373,7 @@ public class ACP {
         if (debugMetodos) {
             System.out.println("Flag 49");
         };
-        // faz o mapeamento obs:olhar como este algoritmo funciona esta no papel
+        // faz o mapeamento dos parenteses
         // System.out.println("Check 2");
         for (int i = abre.size() - 1; i >= 0; i--) {
 
@@ -466,16 +393,17 @@ public class ACP {
             System.out.println("Flag 50");
         };
         // System.out.println("Check 3");
-        for (int i = 0; i < dupla1.size(); i++) {
-            // System.out.println("Dupla "+ i+" : " + dupla1.get(i));
-            // System.out.println("Dupla "+ i+" : " + dupla2.get(i));
-        }
+//        for (int i = 0; i < dupla1.size(); i++) {
+//            System.out.println("Dupla "+ i+" : " + dupla1.get(i));
+//            System.out.println("Dupla "+ i+" : " + dupla2.get(i));
+//        }
         if (debugMetodos) {
             System.out.println("Flag 51");
         };
         int i;
         // System.out.println("Check 4");
         // pega a posicao do segundo parenteses aberto e salva em i
+        
         for (i = 0; i < dupla1.size(); i++) {
             if (dupla1.get(i) == 1) {
                 break;
@@ -520,7 +448,12 @@ public class ACP {
         if (debugMetodos) {
             System.out.println("Flag 56");
         };
-
+        //verifica se o primeiro elemento de var1 e igual a {
+        //gosta/X
+        //opa/Y
+        
+        //gosta
+        //Y
         if (var1.charAt(0) == '{') {
             if (debugMetodos) {
                 System.out.println("Flag 57");
@@ -543,33 +476,25 @@ public class ACP {
                 String array[];
                 array = parte.split("/");
 
-//				for (String l : array2) {
-//					System.out.println("Array2 : " + l);
-//				}
-//				for (String x : array) {
-//					System.out.println("Flag array : " + x);
-//				}
+
                 array[0] = array[0].replaceAll("\\s+", " ");
 
                 array[1] += " ";
                 array[1] = array[1].replaceAll(" ", "");
-//				System.out.println("Flag 59");
-//				System.out.println(array[0].equals(" "));
-//				System.out.println(array[1].equals(""));
-//				System.out.println("(" + array[1] + ")");
 
-                if (array[0].equals(" ") && array[1].equals("")) {
-                    //System.out.println("Flag 2 ");
+                if (array[0].equals(" ") && array[1].equals("")) { 
+                    
 
                     for (int i = 0; i < array2.length; i++) {
                         if (array2[i].equals("(") && array2[i + 1].equals(")")) {
                             array2[i] = "";
                             array2 = novo(array2, i);
-                            //System.out.println("-");
+                            
                             array2[i + 1] = "";
                             array2 = novo(array2, i + 1);
                         }
                     }
+                    
 
                     for (int i = 0; i < array2.length; i++) {
                         novo += array2[i] + " ";

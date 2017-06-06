@@ -14,7 +14,7 @@ public class Erros {
     public ArrayList<String> resposta;
     public ArrayList<String> ErroTemp;
     public ArrayList<Integer> Excluidos;
-    ArrayList<String> add ;
+    public ArrayList<String> add ;
     public String temporario;
     ACP acp = new ACP();
     private static final String OK = "[a-zA-Z0-9_(),!]";
@@ -278,6 +278,8 @@ public class Erros {
             }
 
         } else if (i == 2) {
+            
+            
             for (String cons : consulta) {
                 ArrayList<String> reps = new ArrayList<String>();
 
@@ -397,7 +399,9 @@ public class Erros {
         ArrayList<String> array = new ArrayList<String>();
 
         String temp = "";
-
+        // gosta(X,maria).
+        //{joao/X}
+        //retorna gosta(joao,maria).
         //divide a sentenca e coloca cada parte em uma posicao do array list
         //ex. gosta(joao,maria). 
         /*array(0) = gosta
@@ -479,15 +483,5 @@ public class Erros {
         return resp;
     }
 
-    ArrayList<String> pegar() {
-
-        
-
-        for(String p : this.add){
-            System.out.println("Fuck : "+p);
-        }
-
-        return null;
-    }
-
+    
 }
