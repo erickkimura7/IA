@@ -20,12 +20,12 @@ public class ACP {
     /**
      * @param args the command line arguments
      */
-    public boolean debugUnificar = false;
+    public boolean debugUnificar = true;
     public boolean debugMetodos = false;
 
     public static void main(String[] args) {
         ACP acp = new ACP();
-        System.out.println(acp.rodar_unificacao("p(X,Y).", "p(f(X),a)."));
+        System.out.println(acp.rodar_unificacao("p(X,Xx).", "p(a,b)."));
     }
 
     // E1 e E2 precisao entrar ja em forma de lista
@@ -452,7 +452,7 @@ public class ACP {
     // variaveis
     String aplicar(String var1, String var2) {
         if (debugMetodos) {
-            System.out.println("Flag 56");
+            System.out.println("Flag 56 - aplicar var1 = "+var1 +" var2 = "+var2);
         };
         //verifica se o primeiro elemento de var1 e igual a {
         //gosta/X
@@ -462,7 +462,7 @@ public class ACP {
         //Y
         if (var1.charAt(0) == '{') {
             if (debugMetodos) {
-                System.out.println("Flag 57");
+                System.out.println("Flag 57  - tem { na posica 0");
             };
             String novo = "";
             // System.out.println("Flag 58");
@@ -475,6 +475,9 @@ public class ACP {
             partes = var1.split(",");
             String array2[];
             array2 = var2.split(" ");
+            for(String x : array2){
+                System.out.println(x);
+            }
             int fim = 0;
             int inicio = 0;
             for (String parte : partes) {
@@ -539,12 +542,15 @@ public class ACP {
 
         } else {
             if (debugMetodos) {
-                System.out.println("Flag 61");
+                System.out.println("Flag 61 - nao tem {");
             };
             String array[];
             array = var1.split("/");
             String array2[];
             array2 = var2.split(" ");
+            for(String x : array2){
+                System.out.println(x);
+            }
             String novo = "";
             boolean segundo = false;
             int inicio = 0;
@@ -591,7 +597,19 @@ public class ACP {
                 return novo;
 
             } else {
-                var2 = var2.replaceAll(array[1], array[0]);
+                //var2 = var2.replaceAll(array[1], array[0]);
+                var2 = "";
+                ArrayList<String>aaa = new ArrayList<String>();
+                for(String in : array2){
+                    if(in.equals(array[1])){
+                        aaa.add(array[0]);
+                    }else{
+                        aaa.add(in);
+                    }
+                }
+                for(String in :aaa){
+                    var2 +=in+" ";
+                }
                 return var2;
             }
         }
