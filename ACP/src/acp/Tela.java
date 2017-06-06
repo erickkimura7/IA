@@ -284,7 +284,9 @@ public class Tela extends javax.swing.JFrame {
         if (msg.matches("\\/.*")) {
             if (msg.equals("/help")) {
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /BC para vizualizar a base de conhecimento.");
+                
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /Erros para vizualizar a lista de Erros.");
+                jTextArea1.setText(jTextArea1.getText() + "\n" + "Digite /Add para adicionar o ultima resposta na BC.");
             } else if (msg.equals("/BC")) {
                 if (base_inserido) {
                     BCTela tela = new BCTela();
@@ -317,7 +319,8 @@ public class Tela extends javax.swing.JFrame {
             } else {
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Opção não encontrada, digite /help para ajuda.");
             }
-        } else if (msg.matches(".+\\.\\s*\\&\\s*.+\\.")) {
+        } else if (msg.matches(".+\\.\\s*\\&\\s*.+\\.")) {//algumacoisa. & algumacoisa.
+            
 
             parte = msg.split("&");
             temp1.add(parte[0]);
