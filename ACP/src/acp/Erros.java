@@ -299,7 +299,7 @@ public class Erros {
                 }
                 if (!algum) {
                     resposta.add("\n-? " + cons);
-                    resposta.add("Não unificavel");
+                    resposta.add("\nNão unificavel");
                 } else {
                     resposta.add("\n-? " + cons);
                     resposta.add("\nUnificável");
