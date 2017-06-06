@@ -266,6 +266,7 @@ public class Erros {
                     }
                 }
                 if (!algum) {
+                    resposta.add("\n-? " + cons);
                     resposta.add("Não unificavel");
                 } else {
                     resposta.add("\n-? " + cons);
@@ -297,6 +298,7 @@ public class Erros {
 
                 }
                 if (!algum) {
+                    resposta.add("\n-? " + cons);
                     resposta.add("Não unificavel");
                 } else {
                     resposta.add("\n-? " + cons);
