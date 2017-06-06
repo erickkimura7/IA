@@ -5,16 +5,18 @@
  */
 package acp;
 
+import java.util.ArrayList;
+
 /**
  *
- * @author erickkimura
+ * @author @author erick, Giovanni, Lucas
  */
-public class ErrosTela extends javax.swing.JFrame {
+public class LogErros extends javax.swing.JFrame {
 
     /**
-     * Creates new form ErrosTela
+     * Creates new form LogErros
      */
-    public ErrosTela() {
+    public LogErros() {
         initComponents();
     }
 
@@ -30,12 +32,11 @@ public class ErrosTela extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
-        setTitle("Lista de Erros");
+        setTitle("Log Erros");
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Erro 001 – Caractere não permitido.\n\nErro 002 – Faltando ponto final na consulta\n\nErro 003 – Necessario parênteses\n\nErro 004 – Parenteses sobrando.\n\nErro 005 – sentencao nao começa com um predicado.Ex. gosta(maria,joao). \n\nErro 006 – o termo a seguir nao é uma variável ou constante ou uma expressão funcional\n");
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -44,14 +45,14 @@ public class ErrosTela extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -61,6 +62,16 @@ public class ErrosTela extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    void carregar(ArrayList<String> x) {
+        
+        for (String a : x ) {
+
+            jTextArea1.setText(jTextArea1.getText() + a + "\n");
+
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -75,20 +86,20 @@ public class ErrosTela extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ErrosTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LogErros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ErrosTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LogErros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ErrosTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LogErros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ErrosTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LogErros.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ErrosTela().setVisible(true);
+                new LogErros().setVisible(true);
             }
         });
     }

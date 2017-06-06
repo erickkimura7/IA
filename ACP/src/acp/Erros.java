@@ -14,6 +14,7 @@ public class Erros {
     public ArrayList<String> resposta;
     public ArrayList<String> ErroTemp;
     public ArrayList<Integer> Excluidos;
+    ArrayList<String> add ;
     public String temporario;
     ACP acp = new ACP();
     private static final String OK = "[a-zA-Z0-9_(),!]";
@@ -38,6 +39,7 @@ public class Erros {
         resposta = new ArrayList<String>();
         BC = new ArrayList<String>();
         Excluidos = new ArrayList<Integer>();
+        add = new ArrayList<String>();
     }
 
     public ArrayList<String> getErros() {
@@ -92,7 +94,7 @@ public class Erros {
         //chama funcao de tratamento de erros
         this.tratamento_erros(1);
         if (!(ErrosBC.size() > 0)) {
-            ErrosConsulta.clear();
+            ErrosBC.clear();
         }
 
     }
@@ -124,11 +126,12 @@ public class Erros {
 
     void tratamento_erros(int escolha) {
         ArrayList<String> novaBC = new ArrayList<String>();
-        novaBC = BC;
-        this.Erros = new ArrayList<String>();
         ArrayList<String> utilizar = new ArrayList<String>();
+        this.Erros = new ArrayList<String>();
+
         if (escolha == 1) {
             utilizar = BC;
+
         } else if (escolha == 2) {
             utilizar = consulta;
         } else {
@@ -143,8 +146,8 @@ public class Erros {
 
                 if (!parenteses(x, linha, escolha)) {
                     System.out.println("Erro");
-                    Excluidos.add(linha-1);
-                    novaBC.remove(x);
+                    //Excluidos.add(linha-1);
+                    novaBC.add(x);
                 }
                 linha++;
             }
@@ -159,7 +162,7 @@ public class Erros {
         if ((utilizar.size() > 0)) {
             System.out.println("aqui 1");
             for (String x : utilizar) {
-                String pp =x;
+                String pp = x;
                 x = x.replace(" ", "");
 
                 //verificacao dos caracteres especiais
@@ -173,17 +176,17 @@ public class Erros {
                         //erro de caractere nao aceitos
                         //Caracter nao permitido na posicao : " + i
                         Erros.add("Não é uma fbf. Erro 001. Posição: " + i);
-                        Excluidos.add(linha-1);
-                        novaBC.remove(pp);
+                        Excluidos.add(linha - 1);
+                        novaBC.add(pp);
                         if (escolha == 1) {
                             //erro de caractere nao aceitos informando a linha do erro somente para BC
                             //Caracter nao permitido na linha : " + linha
                             Erros.add("Não é uma fbf. Erro 001. Posição: " + i + ". Linha: " + linha);
-                            Excluidos.add(linha-1);
-                            novaBC.remove(pp);
-                             
+                            Excluidos.add(linha - 1);
+                            novaBC.add(pp);
+
                         }
-                        
+
                         System.out.println(":(");
                     }
                 }
@@ -198,34 +201,32 @@ public class Erros {
                     //Faltando ponto final na linha : " + linha
                     Erros.add("Não é uma fbf. Erro 002. Linha : " + linha);
                     System.out.println("Faltando ponto final na linha : " + linha);
-                    Excluidos.add(linha-1);
-                     novaBC.remove(pp);
+                    Excluidos.add(linha - 1);
+                    novaBC.add(pp);
                 } else {
                     //verificacao de ponto final para a consulta
                     //Faltando ponto final na consulta : " + x
                     Erros.add("Não é uma fbf. Erro 002");
                     System.out.println("Faltando ponto final na consulta : " + x);
-                    Excluidos.add(linha-1);
-                    novaBC.remove(pp);
+                    Excluidos.add(linha - 1);
+                    novaBC.add(pp);
                 }
 
                 //teste para ver se é uma formula bem formada
                 ArrayList<String> temp3 = new ArrayList<String>();
                 teste teste = new teste();
                 temp3 = teste.resposta(x);
-                
-                
-                
+
                 if (temp3.size() > 0) {
                     for (String er : temp3) {
                         if (escolha == 1) {
                             Erros.add(er + " na linha : " + linha);
-                            Excluidos.add(linha-1);
-                            novaBC.remove(pp);
+                            Excluidos.add(linha - 1);
+                            novaBC.add(pp);
                         } else {
                             Erros.add(er);
-                            Excluidos.add(linha-1);
-                            novaBC.remove(pp);
+                            Excluidos.add(linha - 1);
+                            novaBC.add(pp);
                         }
                     }
                 }
@@ -236,7 +237,9 @@ public class Erros {
         for (String x : Erros) {
             System.out.println("Errosssss : " + x);
         }
-        BC = novaBC;
+        for (String x : novaBC) {
+            this.BC.remove(x);
+        }
         if (escolha == 1) {
             setErrosBC(Erros);
         } else if (escolha == 2) {
@@ -449,6 +452,7 @@ public class Erros {
             }
             resp.add("\n" + novo + ".");
             resp.add("Composição: {" + comp + "}");
+            this.add.add(pppp);
 
         } else if (comp.replace(" ", "").equals("")) {
             resp.add("\n" + var);
@@ -470,8 +474,20 @@ public class Erros {
             }
             resp.add("\n" + novo + ".");
             resp.add("Composição: {" + comp + "}");
+            this.add.add(pppp);
         }
         return resp;
+    }
+
+    ArrayList<String> pegar() {
+
+        
+
+        for(String p : this.add){
+            System.out.println("Fuck : "+p);
+        }
+
+        return null;
     }
 
 }

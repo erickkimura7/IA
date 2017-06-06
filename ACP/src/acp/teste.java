@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author erickkimura
+ * @author @author erick, Giovanni, Lucas
  */
 public class teste {
 

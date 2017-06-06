@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author erickkimura
+ * @author @author erick, Giovanni, Lucas
  */
 public class BCTela extends javax.swing.JFrame {
 
@@ -34,6 +34,8 @@ public class BCTela extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+
+        setTitle("Base de Conhecimento");
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);

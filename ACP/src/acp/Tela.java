@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -17,18 +18,21 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author erickkimura
+ * @author erick, Giovanni, Lucas
  */
 public class Tela extends javax.swing.JFrame {
 
     /**
      * Creates new form Tela
      */
+    String caminho_BC;
     Erros tratamento;
     private boolean base_inserido = false;
     private boolean erro = false;
     private boolean junto = false;
     ArrayList telaBC;
+    private boolean juntos = false;
+    private ArrayList<String> resto = new ArrayList<String>();
 
     public Tela() {
         initComponents();
@@ -58,6 +62,7 @@ public class Tela extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -77,6 +82,7 @@ public class Tela extends javax.swing.JFrame {
         jMenuBar3.add(jMenu5);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ACP");
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -100,6 +106,14 @@ public class Tela extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
+
+        jMenuItem5.setText("Salvar BC");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
 
         jMenuItem3.setText("Sair");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -174,6 +188,7 @@ public class Tela extends javax.swing.JFrame {
             System.out.println(arquivo.getPath());
             try {
                 FileReader reader = new FileReader(arquivo.getPath());
+                this.caminho_BC = arquivo.getPath();
                 BufferedReader input = new BufferedReader(reader);
                 String linha;
                 boolean conhecimento = true;
@@ -188,10 +203,17 @@ public class Tela extends javax.swing.JFrame {
                             temp.add(linha);
                         } else {
                             temp_consulta.add(linha);
+                            this.resto.add(linha);
+                            this.juntos = true;
                         }
 
                     }
                     System.out.println(linha);
+                }
+                if (temp_consulta.size() > 0) {
+                    this.juntos = true;
+                } else {
+                    this.junto = false;
                 }
 
                 input.close();
@@ -206,8 +228,7 @@ public class Tela extends javax.swing.JFrame {
                         jTextArea1.setText(jTextArea1.getText() + "\n" + each);
 
                     }
-                    
-                   
+
                     jTextArea1.setText(jTextArea1.getText() + "\n");
 
                 } else {
@@ -232,11 +253,11 @@ public class Tela extends javax.swing.JFrame {
                         tratamento.consulta.clear();
                     }
                     ArrayList<Integer> organizar = new ArrayList<Integer>();
-                     organizar.add(0);
-                     for(Integer x : tratamento.Excluidos){
-                        System.out.println("Exclude : "+x); 
-                         //System.out.println("");
-                        
+                    organizar.add(0);
+                    for (Integer x : tratamento.Excluidos) {
+                        System.out.println("Exclude : " + x);
+                        //System.out.println("");
+
                     }
                     erro = false;
                 }
@@ -275,9 +296,24 @@ public class Tela extends javax.swing.JFrame {
                     jTextArea1.setText(jTextArea1.getText() + "\n" + "Base de Conhecimento não inserida.");
                 }
             } else if (msg.equals("/Erros")) {
-                ErrosTela tela = new ErrosTela();
-
+                LogErros tela = new LogErros();
+                tela.carregar(tratamento.ErrosBC);
                 tela.setVisible(true);
+            } else if (msg.equals("/Add")) {
+                if (tratamento.add.size() > 0) {
+                    int q = JOptionPane.showConfirmDialog(null, "Deseja adicionar a resposta da ultima unificação na BC ?");
+
+                    if (q == JOptionPane.YES_OPTION) {
+                        for (String x : tratamento.add) {
+                            tratamento.BC.add(x);
+                        }
+                    }
+
+                    tratamento.add.clear();
+                } else {
+                    jTextArea1.setText(jTextArea1.getText() + "\n" + "Sem consultas validas para serem armazenadas.");
+                }
+
             } else {
                 jTextArea1.setText(jTextArea1.getText() + "\n" + "Opção não encontrada, digite /help para ajuda.");
             }
@@ -344,7 +380,7 @@ public class Tela extends javax.swing.JFrame {
 
                 }
                 jTextArea1.setText(jTextArea1.getText() + "\n----------------------------------------\n");
-                
+
                 tratamento.consulta.clear();
                 tratamento.resposta.clear();
 
@@ -369,8 +405,34 @@ public class Tela extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-
+        ErrosTela tela = new ErrosTela();
+        tela.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        int resposta = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sobrepor o arquivo da BC atual ?");
+        if (resposta == JOptionPane.YES_OPTION) {
+            try {
+                PrintWriter writer = new PrintWriter(this.caminho_BC, "UTF-8");
+
+                for (String x : tratamento.BC) {
+                    writer.println(x);
+                }
+                if (this.juntos) {
+                    writer.println("");
+                    writer.println("###");
+                    writer.println("");
+                    for ( String in : this.resto) {
+                        writer.println(in);
+                    }
+                }
+                writer.close();
+            } catch (IOException e) {
+                // do something
+            }
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     boolean junto(String var) {
         return false;
@@ -425,6 +487,7 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
